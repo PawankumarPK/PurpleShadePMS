@@ -10,10 +10,10 @@ var bcrypt = require("bcrypt")
 
 app.post("/login", function (req, res) {
 
-    var username = req.body.username
+    var email = req.body.email
     var password = req.body.password
 
-    userModel.find({ username: username })
+    userModel.find({ email: email })
         .exec()
         .then(user => {
             if (user.length < 1) {
