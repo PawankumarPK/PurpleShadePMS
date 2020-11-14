@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 
+var jwt = require("jsonwebtoken")
 var bcrypt = require("bcrypt")
 
 
@@ -28,9 +29,18 @@ app.post("/login", function (req, res) {
                         })
                     }
                     if (result) {
+                        var token = jwt.sign({
+                            username: user[0].username,
+                            email: user[0].email,
+                            userId: user[0]._id
+                        },
+                            "secret", {
+                            expiresIn: "1h"
+                        })
+
                         res.status(201).json({
                             message: "User Found",
-                            user: user
+                            token: token
                         })
                     } else {
                         res.status(404).json({
