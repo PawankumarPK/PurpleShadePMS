@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 
+var bcrypt = require("bcrypt")
+
+
 app.post("/login", function (req, res) {
 
     var username = req.body.username
@@ -13,10 +16,31 @@ app.post("/login", function (req, res) {
     userModel.find({ username: username })
         .exec()
         .then(user => {
-            res.status(201).json({
-                message: "User Found",
-                user: user
-            })
+            if (user.length < 1) {
+                res.status(404).json({
+                    message: "Auth Failed"
+                })
+            } else {
+                bcrypt.compare(password, user[0].password, function (err, result) {
+                    if (err) {
+                        res.status(404).json({
+                            message: "Auth Failed"
+                        })
+                    }
+                    if (result) {
+                        res.status(201).json({
+                            message: "User Found",
+                            user: user
+                        })
+                    } else {
+                        res.status(404).json({
+                            message: "Auth Failed"
+                        })
+                    }
+                })
+
+            }
+
         })
         .catch(err => {
             res.json({
