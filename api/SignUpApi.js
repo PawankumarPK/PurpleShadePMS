@@ -1,5 +1,5 @@
 var app = require("../app")
-var userModel = require("../moduleDB/signup")
+var userModel = require("../moduleDB/signupDB")
 
 const mongoose = require("mongoose")
 var jwt = require("jsonwebtoken")

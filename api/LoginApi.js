@@ -1,5 +1,5 @@
 var app = require("../app")
-var userModel = require("../moduleDB/signup")
+var userModel = require("../moduleDB/SignupDB")
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -35,7 +35,7 @@ app.post("/login", function (req, res) {
                             userId: user[0]._id
                         },
                             "secret", {
-                            expiresIn: "1h"
+                            expiresIn: "7d"
                         })
 
                         res.status(201).json({
