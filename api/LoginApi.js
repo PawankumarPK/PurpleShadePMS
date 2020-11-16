@@ -1,15 +1,16 @@
-var app = require("../app")
+var express = require("express")
+var router = express()
+
 var userModel = require("../moduleDB/SignupDB")
 
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json())
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json())
 
 var jwt = require("jsonwebtoken")
 var bcrypt = require("bcrypt")
 
-
-app.post("/login", function (req, res) {
+router.post("/login", function (req, res) {
 
     var email = req.body.email
     var password = req.body.password
@@ -58,5 +59,6 @@ app.post("/login", function (req, res) {
             })
         })
 
-
 })
+
+module.exports = router;

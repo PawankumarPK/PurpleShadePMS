@@ -1,11 +1,13 @@
-var app = require("../app")
+var express = require("express")
+var router = express()
+
 var userRecords = require("../moduleDB/AddRecordsDB")
 
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json())
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json())
 
-app.post("/inputRecord", function (req, res) {
+router.post("/inputRecord", function (req, res) {
 
     var title = req.body.title
     var webAddress = req.body.webAddress
@@ -32,3 +34,5 @@ app.post("/inputRecord", function (req, res) {
         res.json(err)
     })
 })
+
+module.exports = router;

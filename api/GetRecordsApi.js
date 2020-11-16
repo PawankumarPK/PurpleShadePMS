@@ -1,11 +1,13 @@
-var app = require("../app")
+var express = require("express")
+var router = express()
+
 var userRecord = require("../moduleDB/AddRecordsDB")
 
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json())
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json())
 
-app.get("/allRecords", function (req, res) {
+router.get("/allRecords", function (req, res) {
     var allRecord = userRecord.find()
 
     allRecord.exec().then(data => {
@@ -18,3 +20,6 @@ app.get("/allRecords", function (req, res) {
         res.json(err)
     })
 })
+
+module.exports = router;
+

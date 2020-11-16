@@ -1,18 +1,17 @@
-var app = require("../app")
-var userModel = require("../moduleDB/signupDB")
+var express = require("express")
+var router = express()
 
-const mongoose = require("mongoose")
-var jwt = require("jsonwebtoken")
+var userModel = require("../moduleDB/SignupDB")
+
 var bcrypt = require("bcrypt")
 
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json())
-
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json())
 
 //Api for signup
 
-app.post("/signup", function (req, res) {
+router.post("/signup", function (req, res) {
 
     var username = req.body.username
     var email = req.body.email
@@ -37,7 +36,6 @@ app.post("/signup", function (req, res) {
                     password: hash
                 })
 
-                console.log("===>>>", userDetails);
                 userDetails.save().then(data => {
                     res.status(201).json({
                         message: "User Register Successfully",
@@ -51,5 +49,5 @@ app.post("/signup", function (req, res) {
         })
     }
 })
-module.exports = app
+module.exports = router
 
