@@ -19,6 +19,9 @@ var userRecords = new mongoose.Schema({
     addNote: {
         type: String
     },
+    loginId: {
+        type: String,
+    },
     date: {
         type: Date,
         default: Date.now

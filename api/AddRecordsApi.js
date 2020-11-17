@@ -4,6 +4,7 @@ var router = express()
 var userRecords = require("../moduleDB/AddRecordsDB")
 
 const bodyParser = require('body-parser');
+const userDetail = require("../customObject/userDetail");
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json())
 
@@ -14,14 +15,19 @@ router.post("/inputRecord", function (req, res) {
     var email = req.body.email
     var password = req.body.password
     var addNote = req.body.addNote
+    var userId = userDetail.uId
+
+    console.log("====>>",userId)
 
     var record = new userRecords({
         title: title,
         webAddress: webAddress,
         email: email,
         password: password,
-        addNote: addNote
+        addNote: addNote,
+        loginId :   userId 
     })
+    
 
     record.save().then(data => {
 

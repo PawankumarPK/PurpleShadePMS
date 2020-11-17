@@ -8,7 +8,8 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json())
 
 var jwt = require("jsonwebtoken")
-var bcrypt = require("bcrypt")
+var bcrypt = require("bcrypt");
+const user_id = require("../customObject/userDetail");
 
 router.post("/login", function (req, res) {
 
@@ -41,8 +42,10 @@ router.post("/login", function (req, res) {
 
                         res.status(201).json({
                             message: "User Found",
-                            token: token
+                            token: user,
                         })
+                        user_id.uId = user[0]._id                      
+
                     } else {
                         res.status(404).json({
                             message: "Auth Failed"

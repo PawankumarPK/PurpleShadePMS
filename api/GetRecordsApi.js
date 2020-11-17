@@ -8,8 +8,9 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json())
 
 router.get("/allRecords", function (req, res) {
-    var allRecord = userRecord.find()
+    var id = req.body.id
 
+    var allRecord = userRecord.find({ loginId: id })
     allRecord.exec().then(data => {
         res.status(200).json({
             message: "Success",
