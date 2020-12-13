@@ -19,8 +19,6 @@ router.post("/inputRecord", function (req, res) {
     var addNote = req.body.addNote
     var userId = userDetail.uId
 
-    console.log("====>>",userId)
-
     var record = new userRecords({
         title: title,
         webAddress: webAddress,
