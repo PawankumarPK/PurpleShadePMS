@@ -1,10 +1,10 @@
 var express = require("express")
 var app = express()
 
-var addRecords = require("./api/AddRecordsApi")
-var getRecords = require("./api/GetRecordsApi")
-var login = require("./api/LoginApi")
-var signup = require("./api/SignUpApi")
+var addRecords = require("./controller/AddRecordsApi")
+var getRecords = require("./controller/GetRecordsApi")
+var login = require("./controller/LoginApi")
+var signup = require("./controller/SignUpApi")
 
 app.use('/records/', addRecords)
 app.use('/records/', getRecords)

@@ -5,6 +5,8 @@ var userRecords = require("../moduleDB/AddRecordsDB")
 
 const bodyParser = require('body-parser');
 const userDetail = require("../customObject/userDetail");
+var checkAuth = require("../middleware/auth")
+
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json())
 

@@ -12,7 +12,6 @@ router.use(bodyParser.json())
 //Api for signup
 
 router.post("/signup", function (req, res) {
-
     var username = req.body.username
     var email = req.body.email
     var password = req.body.password

@@ -42,7 +42,7 @@ router.post("/login", function (req, res) {
 
                         res.status(201).json({
                             message: "User Found",
-                            token: user,
+                            token: token,
                         })
                         user_id.uId = user[0]._id                      
 
