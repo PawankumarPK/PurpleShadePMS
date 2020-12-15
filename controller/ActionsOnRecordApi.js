@@ -16,31 +16,44 @@ router.delete("/deleteRecord", function (req, res) {
     })
 })
 
-router.patch("/updateDetails",function(req,res){
-    var id  = req.query.id
+router.patch("/updateDetails", function (req, res) {
+    var id = req.query.id
     var title = req.body.title
     var websiteAddress = req.body.websiteAddress
     var email = req.body.email
-    var password  = req.body.password
+    var password = req.body.password
     var addNote = req.body.addNote
 
-    userRecords.findById(id,function(err,data){
+    userRecords.findById(id, function (err, data) {
         data.title = title
         data.websiteAddress = websiteAddress
         data.email = email
         data.password = password
         data.addNote = addNote
 
-        data.save().then(data =>{
+        data.save().then(data => {
             res.status(201).json({
-                message : "Record update successfully",
+                message: "Record update successfully",
                 result: data
             })
-        }).catch(err =>{
+        }).catch(err => {
             res.json(err)
         })
     })
 
+})
+
+router.get("/viewDetails", function (req, res) {
+    var id = req.query.id
+
+    var details = userRecords.find({_id: id })
+    details.exec().then(data => {
+        res.status(200).json({
+            message: "Fetch Details Successfully",
+            record: data
+        })
+
+    })
 })
 
 module.exports = router
