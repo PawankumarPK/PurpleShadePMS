@@ -2,6 +2,7 @@ var express = require("express")
 var router = express()
 
 var userRecords = require("../moduleDB/AddRecordsDB")
+const { route } = require("./AddRecordsApi")
 
 router.delete("/deleteRecord", function (req, res) {
 
@@ -46,13 +47,25 @@ router.patch("/updateDetails", function (req, res) {
 router.get("/viewDetails", function (req, res) {
     var id = req.query.id
 
-    var details = userRecords.find({_id: id })
+    var details = userRecords.find({ _id: id })
     details.exec().then(data => {
         res.status(200).json({
             message: "Fetch Details Successfully",
             record: data
         })
 
+    })
+})
+
+router.get("/recordDetail", function (req, res) {
+    var id = req.query.id
+
+    var recordDetail = userRecords.find({ _id: id })
+    recordDetail.exec().then(data => {
+        res.status(200).json({
+            message: "Fetch record detail successfully",
+            record: data
+        })
     })
 })
 
