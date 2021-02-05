@@ -14,10 +14,10 @@ router.post("/inputRecord", function (req, res) {
 
     var title = req.body.title
     var webAddress = req.body.webAddress
-    var email = req.body.email  
+    var email = req.body.email
     var password = req.body.password
     var addNote = req.body.addNote
-    var userId = userDetail.uId
+    var loginId = req.body.loginId
 
     var record = new userRecords({
         title: title,
@@ -25,9 +25,9 @@ router.post("/inputRecord", function (req, res) {
         email: email,
         password: password,
         addNote: addNote,
-        loginId :   userId 
+        loginId: loginId
     })
-    
+
 
     record.save().then(data => {
 
