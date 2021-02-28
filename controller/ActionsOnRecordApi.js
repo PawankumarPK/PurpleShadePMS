@@ -2,7 +2,6 @@ var express = require("express")
 var router = express()
 
 var userRecords = require("../moduleDB/AddRecordsDB")
-var userSignupRecord = require("../moduleDB/SignupDB")
 
 const { route } = require("./AddRecordsApi")
 
@@ -19,50 +18,32 @@ router.delete("/deleteRecord", function (req, res) {
     })
 })
 
-router.patch("/updateProfile", function (req, res) {
-    var id = req.query.id
-    var username = req.body.username
-    var email = req.body.email
+// router.patch("/updateDetails", function (req, res) {
+//     var id = req.query.id
+//     var title = req.body.title
+//     var websiteAddress = req.body.websiteAddress
+//     var email = req.body.email
+//     var password = req.body.password
+//     var addNote = req.body.addNote
 
-    userSignupRecord.findById(id, function (err, data) {
-        data.username = username
-        data.email = email
+//     userRecords.findById(id, function (err, data) {
+//         data.title = title
+//         data.websiteAddress = websiteAddress
+//         data.email = email
+//         data.password = password
+//         data.addNote = addNote
 
-        data.save().then(data => {
-            res.status(201).json({
-                message: "Profile Update Successfully",
-                result: data
-            })
-        })
-    })
-})
+//         data.save().then(data => {
+//             res.status(201).json({
+//                 message: "Record update successfully",
+//                 result: data
+//             })
+//         }).catch(err => {
+//             res.json(err)
+//         })
+//     })
 
-router.patch("/updateDetails", function (req, res) {
-    var id = req.query.id
-    var title = req.body.title
-    var websiteAddress = req.body.websiteAddress
-    var email = req.body.email
-    var password = req.body.password
-    var addNote = req.body.addNote
-
-    userRecords.findById(id, function (err, data) {
-        data.title = title
-        data.websiteAddress = websiteAddress
-        data.email = email
-        data.password = password
-        data.addNote = addNote
-
-        data.save().then(data => {
-            res.status(201).json({
-                message: "Record update successfully",
-                result: data
-            })
-        }).catch(err => {
-            res.json(err)
-        })
-    })
-
-})
+// })
 
 router.get("/viewDetails", function (req, res) {
     var id = req.query.id

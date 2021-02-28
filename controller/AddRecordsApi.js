@@ -28,7 +28,6 @@ router.post("/inputRecord", function (req, res) {
         loginId: loginId
     })
 
-
     record.save().then(data => {
 
         res.status(201).json({
