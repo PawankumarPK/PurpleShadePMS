@@ -8,6 +8,7 @@ var login = require("./controller/LoginApi")
 var signup = require("./controller/SignUpApi")
 var actionsOnRecord = require("./controller/ActionsOnRecordApi")
 var updateSignUpDetails = require("./controller/UpdateSignUpDetails")
+var profileDetails = require("./controller/ProfileApi")
 
 app.use('/records/', addRecords)
 app.use('/records/', getRecords)
@@ -15,6 +16,7 @@ app.use("/records", actionsOnRecord)
 app.use("/user/", login)
 app.use("/user/", signup)
 app.use("/user/", updateSignUpDetails)
+app.use("/user/", profileDetails)
 
 app.listen(3000, () => {
     console.log("Server running at port 3000");
