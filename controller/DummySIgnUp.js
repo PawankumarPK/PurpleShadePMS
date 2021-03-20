@@ -4,13 +4,13 @@ var router = express()
 var User = require("../moduleDB/SignupDB")
 
 var bcrypt = require("bcrypt")
-var token = require("token")
-var crypto = require("crypto")
+
 const { v4: uuidv4 } = require('uuid');
 const nodemailer = require("nodemailer");
 
 
 const bodyParser = require('body-parser');
+const { deleteOne } = require("../moduleDB/SignupDB");
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json())
 
@@ -47,8 +47,6 @@ router.post("/dummySignup", function (req, res, next) {
 
                 // generate token and save
 
-                //var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
-
                 // Send email (use credintials of SendGrid)
 
                 var transporter = nodemailer.createTransport({
@@ -84,26 +82,34 @@ router.post("/dummySignup", function (req, res, next) {
     })
 })
 
-router.get("/verify/:token", function (req, res) {
+router.get("/verify", function (req, res) {
 
-    var token = req.params.token
+    var id = req.query.id
+    var token = req.query.token
 
     // token is not found into database i.e. token may have expired 
     if (!token) {
-        return res.status(400).send({ msg: 'Your verification link may have expired. Please click on resend for verify your Email.' });
+        var response = res.status(400).send({ msg: 'Your verification link may have expired. Please click on resend for verify your Email.' });
+        removeField(res, id)
+        return response
     }
 
     // if token is found then check valid user 
 
     else {
-        User.findOne({ signUpToken: token }, function (err, user) {
+        User.findOne({ _id: id, signUpToken: token }, function (err, user) {
             // not valid user
             if (!user) {
-                return res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
+                var response = res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
+                removeField(res, id)
+                return response
+
             }
             // user is already verified
             else if (user.isVerified) {
-                return res.status(200).send('User has been already verified. Please Login');
+                var response = res.status(200).send('User has been already verified. Please Login');
+                console.log(id);
+                return response
             }
             // verify user
             else {
@@ -127,5 +133,11 @@ router.get("/verify/:token", function (req, res) {
 
 
 })
+
+function removeField(res,id) {
+    User.findByIdAndDelete(id).then(data => {
+        //res.status(201).send({ msg: "Delete data" })
+    })
+}
 
 module.exports = router
