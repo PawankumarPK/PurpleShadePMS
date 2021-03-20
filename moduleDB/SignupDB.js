@@ -19,7 +19,15 @@ var userSchema = new mongoose.Schema({
         match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
     },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
     password: {
+        type: String,
+        required: true,
+    },
+    signUpToken: {
         type: String,
         required: true,
     },

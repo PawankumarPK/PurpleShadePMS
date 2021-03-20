@@ -16,7 +16,7 @@ router.post("/login", function (req, res) {
     var email = req.body.email
     var password = req.body.password
 
-    userModel.find({ email: email })
+    userModel.findOne({ email: email })
         .exec()
         .then(user => {
             if (user.length < 1) {
