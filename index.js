@@ -9,10 +9,7 @@ var signup = require("./controller/SignUpApi")
 var actionsOnRecord = require("./controller/ActionsOnRecordApi")
 var updateSignUpDetails = require("./controller/UpdateSignUpDetails")
 var profileDetails = require("./controller/ProfileApi")
-var emailVerification = require("./controller/emailVerification")
-
-//test purpose
-var dummySignup = require("./controller/DummySIgnUp")
+var forgotPassword = require("./controller/ForgotPassword")
 
 app.use('/records/', addRecords)
 app.use('/records/', getRecords)
@@ -21,10 +18,12 @@ app.use("/user/", login)
 app.use("/user/", signup)
 app.use("/user/", updateSignUpDetails)
 app.use("/user/", profileDetails)
-app.use("/email/", emailVerification)
+app.use("/user/", forgotPassword)
 
-//test purpose
+//----------------------------------------------- test purpose ---------------------------------------//
+var dummySignup = require("./controller/DummySIgnUp")
 app.use("/dummy/", dummySignup)
+
 
 app.listen(3000, () => {
     console.log("Server running at port 3000");

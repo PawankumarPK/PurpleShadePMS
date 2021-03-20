@@ -3,13 +3,6 @@ mongoose.connect("mongodb://localhost:27017/PurpleShadesPMS", { useNewUrlParser:
 var conn = mongoose.connection
 
 var userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true,
-        index: {
-            unique: true
-        }
-    },
     email: {
         type: String,
         required: true,
@@ -17,27 +10,15 @@ var userSchema = new mongoose.Schema({
             unique: true
         },
         match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-
+    },
+    forgotPassToken: {
+        type: String,
     },
     isVerified: {
         type: Boolean,
         default: false
     },
-    password: {
-        type: String,
-        required: true,
-    },
-    signUpToken: {
-        type: String,
-        required: true,
-    },
-    forgotPassToken: {
-        type: String,
-    },
-    changePasswordisVerified: {
-        type: Boolean,
-        default: false
-    },
+
     date: {
         type: Date,
         default: Date.now
@@ -45,6 +26,6 @@ var userSchema = new mongoose.Schema({
 })
 
 
-var userModel = mongoose.model("users", userSchema)
-module.exports = userModel
+var forgotPasswordVerify = mongoose.model("forgotPassword", userSchema)
+module.exports = forgotPasswordVerify
 
