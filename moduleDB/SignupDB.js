@@ -29,15 +29,10 @@ var userSchema = new mongoose.Schema({
     },
     signUpToken: {
         type: String,
-        required: true,
     },
-    forgotPassToken: {
-        type: String,
-    },
-    changePasswordisVerified: {
-        type: Boolean,
-        default: false
-    },
+    // token: {
+    //     type: String
+    // },
     date: {
         type: Date,
         default: Date.now

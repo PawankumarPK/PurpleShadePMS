@@ -101,7 +101,7 @@ router.get("/verify", function (req, res) {
             // not valid user
             if (!user) {
                 var response = res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
-                removeField(res, id)
+                //removeField(res, id)
                 return response
 
             }

@@ -48,6 +48,7 @@ router.post("/signup", function (req, res, next) {
 
             //-------------------- create and save user --------------------//
             user = new UserModel({ username: username, email: email, password: password, signUpToken: token });
+            //user = new UserModel(req.body)
             user.save(function (err) {
                 if (err) {
                     return res.status(500).send({ msg: err.message });
@@ -103,6 +104,8 @@ router.get("/verify", function (req, res) {
     //---------------- if token is found then check valid user ------------------//
 
     else {
+
+        console.log(token);
         UserModel.findOne({ _id: id, signUpToken: token }, function (err, user) {
             //-------------- not valid user ---------------//
             if (!user) {
