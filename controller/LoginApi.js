@@ -33,11 +33,11 @@ router.post("/login", function (req, res) {
             //     return res.status(200).send('User successfully logged in.');
             // }
             else {
-                console.log(user.password);
+
                 bcrypt.compare(password, user.password, function (err, result) {
                     if (err) {
                         res.status(404).json({
-                            message: "Auth Failed"
+                            message: err
                         })
                     }
 
@@ -51,12 +51,10 @@ router.post("/login", function (req, res) {
                             expiresIn: "7d"
                         })
 
-                        // user = new UserModel({ token: token });
-                        // user.save(function (err) {
-                        //     if (err) {
-                        //         return res.status(500).send(err.message)
-                        //     }
-                        // })
+                        userModel.updateOne({ _id: user._id }, { token: token }, function (err, res) {
+                            if (err) throw err;
+                        });
+
 
                         res.status(201).json({
                             message: "User Found",

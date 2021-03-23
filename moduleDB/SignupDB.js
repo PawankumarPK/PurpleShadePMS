@@ -30,9 +30,9 @@ var userSchema = new mongoose.Schema({
     signUpToken: {
         type: String,
     },
-    // token: {
-    //     type: String
-    // },
+    token: {
+        type: String,
+    },
     date: {
         type: Date,
         default: Date.now
