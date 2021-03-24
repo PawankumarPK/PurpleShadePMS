@@ -3,11 +3,6 @@ var router = express()
 
 var UserModel = require("../moduleDB/SignupDB")
 
-const bodyParser = require('body-parser');
-router.use(bodyParser.urlencoded({ extended: false }));
-router.use(bodyParser.json())
-
-
 router.patch("/logout", function (req, res) {
     var id = req.query.id
 
