@@ -42,6 +42,9 @@ router.post("/login", function (req, res) {
                     }
 
                     if (result) {
+
+                        //--------------------------------- Generate token -------------------------//
+
                         var token = jwt.sign({
                             username: user.username,
                             email: user.email,
@@ -51,6 +54,7 @@ router.post("/login", function (req, res) {
                             expiresIn: "7d"
                         })
 
+                        // --------------------- Update token -----------------------//
                         userModel.updateOne({ _id: user._id }, { token: token }, function (err, res) {
                             if (err) throw err;
                         });
