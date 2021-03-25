@@ -1,7 +1,7 @@
 var express = require("express")
 var router = express()
 
-var UserModel = require("../moduleDB/ForgotPasswordDB")
+var AppPinModel = require("../moduleDB/ForgotAppPinDB")
 
 const { v4: uuidv4 } = require('uuid');
 const nodemailer = require("nodemailer");
@@ -11,11 +11,14 @@ const bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json())
 
-router.post("/forgotPassword", function (req, res, next) {
+router.post("/forgotAppPin", function (req, res, next) {
     var email = req.body.email
-    var token = uuidv4()
+    var token = Math.floor(100000 + Math.random() * 900000)
 
-    UserModel.findOne({ email }, function (err, user) {
+    //console.log(Math.floor(100000 + Math.random() * 900000));
+
+
+    AppPinModel.findOne({ email }, function (err, user) {
 
         //--------- error occur ----------//
         if (err) {
@@ -26,7 +29,7 @@ router.post("/forgotPassword", function (req, res, next) {
         else {
 
             //-------------------- create and save user --------------------//
-            user = new UserModel({ email: email, forgotPassToken: token });
+            user = new AppPinModel({ email: email, forgotPinToken: token });
 
             user.save(function (err) {
                 if (err) {
@@ -49,8 +52,8 @@ router.post("/forgotPassword", function (req, res, next) {
                     to: user.email,
                     subject: 'Account Verification Link',
                     text: `Hello User'
-                    Please verify your account by clicking the link: 
-                    http://${req.headers.host}/verify/user/${token}
+                    Please use this code to reset the PIN for the app: 
+                    Here is your code: ${token}
                     Thank You`}
 
                 transporter.sendMail(mailOptions);
@@ -64,7 +67,7 @@ router.post("/forgotPassword", function (req, res, next) {
 })
 
 
-router.get("/forgotPassVerify", function (req, res) {
+router.get("/forgotPinVerify", function (req, res) {
 
     var id = req.query.id
     var token = req.query.token
@@ -72,14 +75,14 @@ router.get("/forgotPassVerify", function (req, res) {
     //--------------- token is not found into database i.e. token may have expired ---------------//
     if (!token) {
         var response = res.status(400).send({ msg: 'Your verification link may have expired. Please click on resend for verify your Email.' });
-        removeField(res, id)
+        //removeField(res, id)
         return response
     }
 
     //---------------- if token is found then check valid user ------------------//
 
     else {
-        UserModel.findOne({ _id: id, forgotPassToken: token }, function (err, user) {
+        AppPinModel.findOne({ _id: id, forgotPinToken: token }, function (err, user) {
 
             user.isVerified = true;
 
