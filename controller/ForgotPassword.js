@@ -81,10 +81,18 @@ router.get("/forgotPassVerify", function (req, res) {
     else {
         UserModel.findOne({ _id: id, forgotPassToken: token }, function (err, user) {
 
+            //--------------------- not valid user ------------------------------------//
+            if(!user){
+                var response = res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
+                //removeField(res, id)
+                return response
+            }
+        
+
             user.isVerified = true;
 
             console.log(user.isVerified);
-            user.save(function (err) {
+            user.save(function (err) {  
                 //-------------------- error occur ----------------------//
                 if (err) {
                     return res.status(500).send({ msg: err.message });

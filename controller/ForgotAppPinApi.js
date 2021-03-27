@@ -3,7 +3,6 @@ var router = express()
 
 var AppPinModel = require("../moduleDB/ForgotAppPinDB")
 
-const { v4: uuidv4 } = require('uuid');
 const nodemailer = require("nodemailer");
 
 const bodyParser = require('body-parser');
@@ -83,6 +82,12 @@ router.get("/forgotPinVerify", function (req, res) {
 
     else {
         AppPinModel.findOne({ _id: id, forgotPinToken: token }, function (err, user) {
+
+            if (!user) {
+                var response = res.status(401).send({ msg: "We were unable to find a user for this verification. Please SignUp!" })
+                return response
+            }
+
 
             user.isVerified = true;
 
