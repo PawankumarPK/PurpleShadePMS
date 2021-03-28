@@ -20,7 +20,7 @@ router.post("/signup", function (req, res, next) {
     var password = req.body.password
     var confirmPassword = req.body.confirmPassword
     var userToken = ""
-    var token = uuidv4()
+    var token =  Math.floor(100000 + Math.random() * 900000)
 
     if (password !== confirmPassword) {
         res.json({
@@ -90,15 +90,15 @@ router.post("/signup", function (req, res, next) {
     })
 })
 
-router.get("/verify", function (req, res) {
+router.get("/signUpVerify", function (req, res) {
 
-    var id = req.query.id
+    var email = req.query.email
     var token = req.query.token
 
     //--------------- token is not found into database i.e. token may have expired ---------------//
     if (!token) {
         var response = res.status(400).send({ msg: 'Your verification link may have expired. Please click on resend for verify your Email.' });
-        removeField(res, id)
+        removeField(res, email)
         return response
     }
 
@@ -107,18 +107,18 @@ router.get("/verify", function (req, res) {
     else {
 
         console.log(token);
-        UserModel.findOne({ _id: id, signUpToken: token }, function (err, user) {
+        UserModel.findOne({ email: email, signUpToken: token }, function (err, user) {
             //-------------- not valid user ---------------//
             if (!user) {
                 var response = res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
-                removeField(res, id)
+                removeField(res, email)
                 return response
 
             }
             //----------------- user is already verified ----------------//
             else if (user.isVerified) {
                 var response = res.status(200).send('User has been already verified. Please Login');
-                console.log(id);
+                console.log(email);
                 return response
             }
             // ---------------- verify user -----------------//
@@ -144,8 +144,8 @@ router.get("/verify", function (req, res) {
 
 })
 
-function removeField(res, id) {
-    UserModel.findByIdAndDelete(id).then(data => {
+function removeField(res, email) {
+    UserModel.findOne(email).then(data => {
         //res.status(201).send({ msg: "Delete data" })
     })
 }

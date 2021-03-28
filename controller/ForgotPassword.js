@@ -1,21 +1,24 @@
 var express = require("express")
 var router = express()
 
-var UserModel = require("../moduleDB/ForgotPasswordDB")
+var ForgotPasswordModel = require("../moduleDB/ForgotPasswordDB")
+var UserModel = require("../moduleDB/SignupDB")
+
 
 const { v4: uuidv4 } = require('uuid');
 const nodemailer = require("nodemailer");
 
 const bodyParser = require('body-parser');
+const e = require("express");
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json())
 
 router.post("/forgotPassword", function (req, res, next) {
     var email = req.body.email
-    var token = uuidv4()
+    var token = Math.floor(100000 + Math.random() * 900000)
 
-    UserModel.findOne({ email }, function (err, user) {
+    ForgotPasswordModel.findOne({ email }, function (err, user) {
 
         //--------- error occur ----------//
         if (err) {
@@ -26,7 +29,7 @@ router.post("/forgotPassword", function (req, res, next) {
         else {
 
             //-------------------- create and save user --------------------//
-            user = new UserModel({ email: email, forgotPassToken: token });
+            user = new ForgotPasswordModel({ email: email, forgotPassToken: token });
 
             user.save(function (err) {
                 if (err) {
@@ -66,33 +69,33 @@ router.post("/forgotPassword", function (req, res, next) {
 
 router.get("/forgotPassVerify", function (req, res) {
 
-    var id = req.query.id
+    var email = req.query.email
     var token = req.query.token
 
     //--------------- token is not found into database i.e. token may have expired ---------------//
     if (!token) {
         var response = res.status(400).send({ msg: 'Your verification link may have expired. Please click on resend for verify your Email.' });
-        removeField(res, id)
+        removeField(res, email)
         return response
     }
 
     //---------------- if token is found then check valid user ------------------//
 
     else {
-        UserModel.findOne({ _id: id, forgotPassToken: token }, function (err, user) {
+        ForgotPasswordModel.findOne({ email: email, forgotPassToken: token }, function (err, user) {
 
             //--------------------- not valid user ------------------------------------//
-            if(!user){
+            if (!user) {
                 var response = res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
-                //removeField(res, id)
+                removeField(res, email)
                 return response
             }
-        
+
 
             user.isVerified = true;
 
             console.log(user.isVerified);
-            user.save(function (err) {  
+            user.save(function (err) {
                 //-------------------- error occur ----------------------//
                 if (err) {
                     return res.status(500).send({ msg: err.message });
@@ -106,5 +109,29 @@ router.get("/forgotPassVerify", function (req, res) {
 
     }
 })
+
+router.post("/updatePass", function (req, res) {
+
+    var email = req.body.email
+    var password = req.body.password
+    var confirmPassword = req.body.password
+
+    UserModel.updateOne({ email: email }, { password: password }, function (err, res) {
+        if (err) {
+            return res.status(500).send({ msg: err.message });
+        }
+    })
+
+    res.status(201).json({
+        message: "Password update successfully"
+    })
+
+})
+
+function removeField(res, id) {
+    ForgotPasswordModel.findByIdAndDelete(id).then(data => {
+        //res.status(201).send({ msg: "Delete data" })
+    })
+}
 
 module.exports = router

@@ -30,8 +30,13 @@ router.patch("/updatePassword", function (req, res) {
             return res.status(500).send({ msg: err.message });
         }
 
-        console.log(password);
-        data.password = password
+        if (!data) {
+            return res.status(500).send({ msg: err.message });
+        } else {
+            console.log(password);
+            data.password = password
+        }
+
 
         data.save().then(data => {
             res.status(201).json({
