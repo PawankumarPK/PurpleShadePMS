@@ -4,12 +4,12 @@ var router = express()
 var ForgotPasswordModel = require("../moduleDB/ForgotPasswordDB")
 var UserModel = require("../moduleDB/SignupDB")
 
+var bcrypt = require("bcrypt")
 
 const { v4: uuidv4 } = require('uuid');
 const nodemailer = require("nodemailer");
 
 const bodyParser = require('body-parser');
-const e = require("express");
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json())
@@ -110,11 +110,13 @@ router.get("/forgotPassVerify", function (req, res) {
     }
 })
 
-router.post("/updatePass", function (req, res) {
+router.post("/updatePassword", function (req, res) {
 
     var email = req.body.email
     var password = req.body.password
     var confirmPassword = req.body.password
+
+    password = bcrypt.hashSync(password, 10);
 
     UserModel.updateOne({ email: email }, { password: password }, function (err, res) {
         if (err) {

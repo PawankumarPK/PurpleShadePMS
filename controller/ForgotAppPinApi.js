@@ -68,24 +68,24 @@ router.post("/forgotAppPin", function (req, res, next) {
 
 router.get("/forgotPinVerify", function (req, res) {
 
-    var id = req.query.id
+    var email = req.query.email
     var token = req.query.token
 
     //--------------- token is not found into database i.e. token may have expired ---------------//
     if (!token) {
         var response = res.status(400).send({ msg: 'Your verification link may have expired. Please click on resend for verify your Email.' });
-        removeField(res, id)
+        removeField(res, email)
         return response
     }
 
     //---------------- if token is found then check valid user ------------------//
 
     else {
-        AppPinModel.findOne({ _id: id, forgotPinToken: token }, function (err, user) {
+        AppPinModel.findOne({ email: email, forgotPinToken: token }, function (err, user) {
 
             if (!user) {
                 var response = res.status(401).send({ msg: "We were unable to find a user for this verification. Please SignUp!" })
-                removeField(res, id)
+                removeField(res, email)
                 return response
             }
 
