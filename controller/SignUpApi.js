@@ -19,8 +19,9 @@ router.post("/signup", function (req, res, next) {
     var email = req.body.email
     var password = req.body.password
     var confirmPassword = req.body.confirmPassword
+    var appPin = req.body.appPin
     var userToken = ""
-    var token =  Math.floor(100000 + Math.random() * 900000)
+    var token = Math.floor(100000 + Math.random() * 900000)
 
     if (password !== confirmPassword) {
         res.json({
@@ -48,7 +49,7 @@ router.post("/signup", function (req, res, next) {
             password = bcrypt.hashSync(password, 10);
 
             //-------------------- create and save user --------------------//
-            user = new UserModel({ username: username, email: email, password: password, signUpToken: token, token: userToken });
+            user = new UserModel({ username: username, email: email, password: password, appPin: appPin, signUpToken: token, token: userToken });
             //user = new UserModel(req.body)
             user.save(function (err) {
                 if (err) {

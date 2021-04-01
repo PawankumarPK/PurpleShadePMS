@@ -27,6 +27,9 @@ var userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    appPin: {
+        type: String,
+    },
     signUpToken: {
         type: String,
     },

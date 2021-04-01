@@ -11,7 +11,7 @@ var updateSignUpDetails = require("./controller/UpdateSignUpDetails")
 var profileDetails = require("./controller/ProfileApi")
 var forgotPassword = require("./controller/ForgotPassword")
 var logoutUser = require("./controller/LogoutApi")
-var forgotAppPin = require("./controller/ForgotAppPinApi")
+var appPin = require("./controller/AppPinApi")
 
 app.use('/records/', addRecords)
 app.use('/records/', getRecords)
@@ -22,7 +22,7 @@ app.use("/user/", updateSignUpDetails)
 app.use("/user/", profileDetails)
 app.use("/user/", forgotPassword)
 app.use("/user/", logoutUser)
-app.use("/user/", forgotAppPin)
+app.use("/user/", appPin)
 
 //----------------------------------------------- test purpose ---------------------------------------//
 var dummySignup = require("./controller/DummySIgnUp")

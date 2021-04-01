@@ -75,7 +75,7 @@ router.get("/forgotPassVerify", function (req, res) {
     //--------------- token is not found into database i.e. token may have expired ---------------//
     if (!token) {
         var response = res.status(400).send({ msg: 'Your verification link may have expired. Please click on resend for verify your Email.' });
-        removeField(res, email)
+       // removeField(res, email)
         return response
     }
 
@@ -87,7 +87,7 @@ router.get("/forgotPassVerify", function (req, res) {
             //--------------------- not valid user ------------------------------------//
             if (!user) {
                 var response = res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
-                removeField(res, email)
+               // removeField(res, email)
                 return response
             }
 
@@ -130,10 +130,10 @@ router.post("/updatePassword", function (req, res) {
 
 })
 
-function removeField(res, id) {
-    ForgotPasswordModel.findByIdAndDelete(id).then(data => {
-        //res.status(201).send({ msg: "Delete data" })
-    })
-}
+// function removeField(res, email) {
+//     ForgotPasswordModel.findByIdAndDelete(email).then(data => {
+//         //res.status(201).send({ msg: "Delete data" })
+//     })
+// }
 
 module.exports = router

@@ -2,13 +2,18 @@ var express = require("express")
 var router = express()
 
 var AppPinModel = require("../moduleDB/ForgotAppPinDB")
+var UserModel = require("../moduleDB/SignupDB")
+
 
 const nodemailer = require("nodemailer");
 
 const bodyParser = require('body-parser');
+const { route } = require("./SignUpApi");
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json())
+
+/*------------------------------- Not in use for now --------------------------------*/
 
 router.post("/forgotAppPin", function (req, res, next) {
     var email = req.body.email
@@ -65,6 +70,7 @@ router.post("/forgotAppPin", function (req, res, next) {
     })
 })
 
+/*------------------------------- Not in use for now --------------------------------*/
 
 router.get("/forgotPinVerify", function (req, res) {
 
@@ -108,8 +114,25 @@ router.get("/forgotPinVerify", function (req, res) {
     }
 })
 
+router.post("/updateAppPin", function (req, res) {
 
-function removeField(res,id) {
+    var email = req.body.email
+    var pin = req.body.pin
+
+    UserModel.updateOne({ email: email }, { appPin: pin }, function (err, res) {
+        if (err) {
+            return res.status(500).send({ msg: err.message });
+        }
+    })
+
+    res.status(201).json({
+        message: "Pin update successfully"
+    })
+
+})
+
+
+function removeField(res, id) {
     AppPinModel.findByIdAndDelete(id).then(data => {
         //res.status(201).send({ msg: "Delete data" })
     })
