@@ -81,7 +81,8 @@ router.post("/signup", function (req, res, next) {
                     // http://${req.headers.host}/verify/user/${token}
                     // Thank You`,
 
-                    html: `Hello,<h1>${username}</h1><br> Please use the following OTP.<br><h2>${token}</h2>`
+                    html: `Hello ${username} <br><h4>Is this you signing up?</h4></br>
+                    If yes, use this verification code <br><h2>${token}</h2></br>`
 
                 }
 
