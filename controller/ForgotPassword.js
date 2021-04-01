@@ -50,11 +50,10 @@ router.post("/forgotPassword", function (req, res, next) {
                 var mailOptions = {
                     from: 'no-reply@example.com',
                     to: user.email,
-                    subject: 'Account Verification Link',
-                    text: `Hello User'
-                    Please verify your account by clicking the link: 
-                    http://${req.headers.host}/verify/user/${token}
-                    Thank You`}
+                    subject: 'Account Verification Code',
+                    html: `Hello ${username} <br><h4>Is this you signing up?</h4></br>
+                    If yes, use this verification code <br><h2>${token}</h2></br>`
+                }
 
                 transporter.sendMail(mailOptions);
 
@@ -75,7 +74,7 @@ router.get("/forgotPassVerify", function (req, res) {
     //--------------- token is not found into database i.e. token may have expired ---------------//
     if (!token) {
         var response = res.status(400).send({ msg: 'Your verification link may have expired. Please click on resend for verify your Email.' });
-       // removeField(res, email)
+        // removeField(res, email)
         return response
     }
 
@@ -87,7 +86,7 @@ router.get("/forgotPassVerify", function (req, res) {
             //--------------------- not valid user ------------------------------------//
             if (!user) {
                 var response = res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
-               // removeField(res, email)
+                // removeField(res, email)
                 return response
             }
 
