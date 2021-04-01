@@ -3,8 +3,6 @@ var router = express()
 
 var userRecords = require("../moduleDB/AddRecordsDB")
 
-const { route } = require("./AddRecordsApi")
-
 router.delete("/deleteRecord", function (req, res) {
 
     var recordId = req.query.id

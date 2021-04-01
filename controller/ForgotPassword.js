@@ -51,7 +51,7 @@ router.post("/forgotPassword", function (req, res, next) {
                     from: 'no-reply@example.com',
                     to: user.email,
                     subject: 'Account Verification Code',
-                    html: `Hello ${username} <br><h4>Is this you signing up?</h4></br>
+                    html: `Dear User <br><h4>Seems like you forgot your password for PMS</h4></br>
                     If yes, use this verification code <br><h2>${token}</h2></br>`
                 }
 
@@ -74,7 +74,7 @@ router.get("/forgotPassVerify", function (req, res) {
     //--------------- token is not found into database i.e. token may have expired ---------------//
     if (!token) {
         var response = res.status(400).send({ msg: 'Your verification link may have expired. Please click on resend for verify your Email.' });
-        // removeField(res, email)
+        removeField(res, email)
         return response
     }
 
@@ -86,7 +86,7 @@ router.get("/forgotPassVerify", function (req, res) {
             //--------------------- not valid user ------------------------------------//
             if (!user) {
                 var response = res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
-                // removeField(res, email)
+                removeField(res, email)
                 return response
             }
 
@@ -101,6 +101,7 @@ router.get("/forgotPassVerify", function (req, res) {
                 }
                 //----------------- account successfully verified -----------------------//
                 else {
+                    removeField(res, email)
                     return res.status(200).send('Your account has been successfully verified');
                 }
             });
@@ -108,6 +109,12 @@ router.get("/forgotPassVerify", function (req, res) {
 
     }
 })
+
+function removeField(res, email) {
+    ForgotPasswordModel.findOneAndDelete(email).then(data => {
+        //res.status(201).send({ msg: "Delete data" })
+    })
+}
 
 router.post("/updatePassword", function (req, res) {
 
@@ -129,10 +136,5 @@ router.post("/updatePassword", function (req, res) {
 
 })
 
-// function removeField(res, email) {
-//     ForgotPasswordModel.findByIdAndDelete(email).then(data => {
-//         //res.status(201).send({ msg: "Delete data" })
-//     })
-// }
 
 module.exports = router
