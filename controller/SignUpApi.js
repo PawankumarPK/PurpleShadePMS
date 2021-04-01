@@ -75,11 +75,15 @@ router.post("/signup", function (req, res, next) {
                 var mailOptions = {
                     from: 'no-reply@example.com',
                     to: user.email,
-                    subject: 'Account Verification Link',
-                    text: `Hello ${username}
-                    Please verify your account by clicking the link: 
-                    http://${req.headers.host}/verify/user/${token}
-                    Thank You`}
+                    subject: 'Account Verification OTP',
+                    // text: `Hello ${username}
+                    // Please verify your account by clicking the link: 
+                    // http://${req.headers.host}/verify/user/${token}
+                    // Thank You`,
+
+                    html: `Hello,<h1>${username}</h1><br> Please use the following OTP.<br><h2>${token}</h2>`
+
+                }
 
                 transporter.sendMail(mailOptions);
 
