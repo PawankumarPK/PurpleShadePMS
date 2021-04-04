@@ -1,5 +1,7 @@
+require("dotenv").config()
+
 const mongoose = require("mongoose")
-mongoose.connect("mongodb://localhost:27017/PurpleShadesPMS", { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+mongoose.connect(process.env.LOCAL_URL_FOR_MONGODB, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
 
 var userRecords = new mongoose.Schema({
 

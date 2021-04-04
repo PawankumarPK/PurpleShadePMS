@@ -160,7 +160,6 @@ router.post("/updatePassword", function (req, res) {
 router.post("/removeForgotPassField",function(req,res){
     var email = req.body.email
 
-
     ForgotPasswordModel.deleteOne({email:email}).then(data => {
         res.status(201).json({
             message: "Delete Field Successfully",
