@@ -39,35 +39,27 @@ router.post("/forgotPassword", function (req, res, next) {
 
                 //--------- generate token and save --------//
 
-                //step 1
-                let transporter = nodemailer.createTransport({
-                    service: 'gmail',
+                var transporter = nodemailer.createTransport({
+                    host: "smtp.mailtrap.io",
+                    port: 2525,
                     auth: {
-                        user: process.env.EMAIL,
-                        pass: process.env.PASSWORD
+                        user: "16111fa3918686",
+                        pass: "e1a66aed659b3b"
                     }
+                });
 
-                })
-
-                //step 2
-                let mailOption = {
-                    from: process.env.EMAIL,
-                    to: email,
+                var mailOptions = {
+                    from: 'no-reply@example.com',
+                    to: user.email,
                     subject: 'Account Verification Code',
                     html: `Dear User <br><h4>Seems like you forgot your password for PMS</h4></br>
                     If yes, use this verification code <br><h2>${token}</h2></br>`
                 }
 
-                // step3
-                transporter.sendMail(mailOption, function (err, data) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log("Email sent !!!!!");
-                        return res.status(200).send('A verification email has been sent to ' + user.email + '. It will be expire after one day. If you not get verification Email click on resend token.');
+                transporter.sendMail(mailOptions);
 
-                    }
-                })
+                return res.status(200).send('A verification email has been sent to ' + user.email + '. It will be expire after one day. If you not get verification Email click on resend token.');
+
             })
 
         }
@@ -130,7 +122,7 @@ router.get("/forgotPassVerify", function (req, res) {
                 }
                 //----------------- account successfully verified -----------------------//
                 else {
-                    // removeField(res, email)
+                     removeField(res, email)
                     return res.status(200).send('Your account has been successfully verified');
                 }
             });
@@ -165,5 +157,18 @@ router.post("/updatePassword", function (req, res) {
 
 })
 
+router.post("/removeForgotPassField",function(req,res){
+    var email = req.body.email
+
+
+    ForgotPasswordModel.deleteOne({email:email}).then(data => {
+        res.status(201).json({
+            message: "Delete Field Successfully",
+            result: data
+        })
+    }).catch(err => {
+        res.json(err)
+    })
+})
 
 module.exports = router

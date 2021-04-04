@@ -8,7 +8,17 @@ var config =  require("config")
 var email   = "pyadav.workmail@gmail.com";
 
 // Load your AWS credentials and try to instantiate the object.
-aws.config.loadFromPath(__dirname + "/default.json")
+//make default.json file in controller and add below code
+/** 
+{ 
+    "accessKeyId": "AKIAU62HD5VCRBDCOVAG",
+    "secretAccessKey": "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",
+    "region": "us-west-2"
+}
+*/
+
+//uncomment this if you are going to use aws ses
+//aws.config.loadFromPath(__dirname + "/default.json")
 
 
 
