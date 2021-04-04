@@ -10,6 +10,7 @@ const { v4: uuidv4 } = require('uuid');
 const nodemailer = require("nodemailer");
 
 const bodyParser = require('body-parser');
+const { route } = require("./ActionsOnRecordApi")
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json())
@@ -65,6 +66,26 @@ router.post("/forgotPassword", function (req, res, next) {
     })
 })
 
+router.post("/verificationToken", function (req, res) {
+    var email = req.body.email
+
+    var forgotPasswordDetail = ForgotPasswordModel.findOne({ email: email })
+    forgotPasswordDetail.exec().then(user => {
+
+        if (!user) {
+            var response = res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
+            //removeField(res, email)
+            return response
+        }
+
+        res.status(201).json({
+            message: "Fetch verification token successful",
+            token: user
+        })
+    })
+
+
+})
 
 router.get("/forgotPassVerify", function (req, res) {
 
@@ -101,7 +122,7 @@ router.get("/forgotPassVerify", function (req, res) {
                 }
                 //----------------- account successfully verified -----------------------//
                 else {
-                    removeField(res, email)
+                    // removeField(res, email)
                     return res.status(200).send('Your account has been successfully verified');
                 }
             });
