@@ -8,7 +8,6 @@ var config =  require("config")
 var email   = "pyadav.workmail@gmail.com";
 
 // Load your AWS credentials and try to instantiate the object.
-console.log(__dirname);
 aws.config.loadFromPath(__dirname + "/default.json")
 
 

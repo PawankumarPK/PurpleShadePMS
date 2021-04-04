@@ -1,3 +1,6 @@
+require("dotenv").config()
+
+
 var express = require("express")
 var router = express()
 
@@ -51,6 +54,7 @@ router.post("/signup", function (req, res, next) {
             //-------------------- create and save user --------------------//
             user = new UserModel({ username: username, email: email, password: password, appPin: appPin, signUpToken: token, token: userToken });
             //user = new UserModel(req.body)
+
             user.save(function (err) {
                 if (err) {
                     return res.status(500).send({ msg: err.message });
@@ -58,37 +62,36 @@ router.post("/signup", function (req, res, next) {
 
                 //--------- generate token and save --------//
 
-                var transporter = nodemailer.createTransport({
-                    host: "smtp.mailtrap.io",
-                    port: 2525,
+                //step 1
+                let transporter = nodemailer.createTransport({
+                    service: 'gmail',
                     auth: {
-                        user: "16111fa3918686",
-                        pass: "e1a66aed659b3b"
+                        user: process.env.EMAIL,
+                        pass: process.env.PASSWORD
                     }
-                });
 
-                // var transporter = nodemailer.createTransport({
-                //     host: "smtp.ethereal.email",
-                //     port: 587,
-                //     auth: { user: process.env.SENDGRID_USERNAME, pass: process.env.SENDGRID_PASSWORD }
-                // });
-                var mailOptions = {
-                    from: 'no-reply@example.com',
-                    to: user.email,
-                    subject: 'Account Verification OTP',
-                    // text: `Hello ${username}
-                    // Please verify your account by clicking the link: 
-                    // http://${req.headers.host}/verify/user/${token}
-                    // Thank You`,
+                })
 
+                //step 2
+                let mailOption = {
+                    from: process.env.EMAIL,
+                    to: email,
+                    subject: 'Account Verification Code',
                     html: `Hello ${username} <br><h4>Is this you signing up?</h4></br>
                     If yes, use this verification code <br><h2>${token}</h2></br>`
 
                 }
 
-                transporter.sendMail(mailOptions);
+                // step3
+                transporter.sendMail(mailOption, function (err, data) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log("Email sent !!!!!");
+                        return res.status(200).send('A verification email has been sent to ' + user.email + '. It will be expire after one day. If you not get verification Email click on resend token.');
 
-                return res.status(200).send('A verification email has been sent to ' + user.email + '. It will be expire after one day. If you not get verification Email click on resend token.');
+                    }
+                })
 
             })
 
