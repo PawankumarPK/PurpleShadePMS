@@ -3,21 +3,21 @@ var app = express()
 
 
 
-//------------------------------------- Not in use ------------------------------------------//
+// //------------------------------------- Not in use ------------------------------------------//
 
-var addRecords = require("./api/AddRecordsApi")
-var getRecords = require("./api/GetRecordsApi")
-var login = require("./api/LoginApi")
-var signup = require("./api/SignUpApi")
+// var addRecords = require("./api/AddRecordsApi")
+// var getRecords = require("./api/GetRecordsApi")
+// var login = require("./api/LoginApi")
+// var signup = require("./api/SignUpApi")
 
-app.use('/records/', addRecords)
-app.use('/records/', getRecords)
-app.use("/user/", login)
-app.use("/user/", signup)
+// app.use('/records/', addRecords)
+// app.use('/records/', getRecords)
+// app.use("/user/", login)
+// app.use("/user/", signup)
 
-app.listen(3000, () => {
-    console.log("Server running at port 3000");
-})
+// // app.listen(3000, () => {
+// //     console.log("Server running at port 3000");
+// // })
 
 
 module.exports = app;
