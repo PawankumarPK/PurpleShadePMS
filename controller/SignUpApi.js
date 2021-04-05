@@ -150,6 +150,28 @@ router.get("/signUpVerify", function (req, res) {
 
 })
 
+
+router.post("/verificationSignUpToken", function (req, res) {
+    var email = req.body.email
+
+    var signUpTokenDetail = UserModel.findOne({ email: email })
+    signUpTokenDetail.exec().then(user => {
+
+        if (!user) {
+            var response = res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
+            //removeField(res, email)
+            return response
+        }
+
+        res.status(201).json({
+            message: "Fetch verification token successful",
+            token: user
+        })
+    })
+
+
+})
+
 router.post("/removeSignUp",function(req,res){
     var email = req.body.email
 
