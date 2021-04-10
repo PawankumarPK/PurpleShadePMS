@@ -5,8 +5,8 @@ var userRecord = require("../moduleDB/AddRecordsDB")
 var checkAuth = require("../middleware/auth")
 
 const bodyParser = require('body-parser');
-router.use(bodyParser.urlencoded({ extended: false }));
-router.use(bodyParser.json())
+router.use(express.urlencoded({ extended: false }));
+router.use(express.json())
 
 router.get("/allRecords", function (req, res) {
     var id = req.query.id

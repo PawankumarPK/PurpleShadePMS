@@ -25,10 +25,8 @@ app.use("/user/", logoutUser)
 app.use("/user/", appPin)
 
 //----------------------------------------------- test purpose ---------------------------------------//
-var dummySignup = require("./controller/DummySIgnUp")
 var awsSES = require("./controller/AwsSesApi")
 
-app.use("/dummy/", dummySignup)
 app.use("/aws/", awsSES)
 
 

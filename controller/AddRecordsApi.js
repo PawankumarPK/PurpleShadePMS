@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 const userDetail = require("../customObject/userDetail");
 var checkAuth = require("../middleware/auth")
 
-router.use(bodyParser.urlencoded({ extended: false }));
-router.use(bodyParser.json())
+router.use(express.urlencoded({ extended: false }));
+router.use(express.json())
 
 router.post("/inputRecord", function (req, res) {
 

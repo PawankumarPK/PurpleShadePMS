@@ -8,8 +8,8 @@ const nodemailer = require("nodemailer");
 const bodyParser = require('body-parser');
 const { route } = require("./SignUpApi");
 
-router.use(bodyParser.urlencoded({ extended: false }));
-router.use(bodyParser.json())
+router.use(express.urlencoded({ extended: false }));
+router.use(express.json())
 
 router.post("/updateAppPin", function (req, res) {
 

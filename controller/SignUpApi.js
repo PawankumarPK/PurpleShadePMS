@@ -12,8 +12,8 @@ const { v4: uuidv4 } = require('uuid');
 const nodemailer = require("nodemailer");
 
 const bodyParser = require('body-parser');
-router.use(bodyParser.urlencoded({ extended: false }));
-router.use(bodyParser.json())
+router.use(express.urlencoded({ extended: false }));
+router.use(express.json())
 
 router.post("/signup", function (req, res, next) {
 

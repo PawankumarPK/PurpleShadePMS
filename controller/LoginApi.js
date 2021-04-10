@@ -4,8 +4,8 @@ var router = express()
 var userModel = require("../moduleDB/SignupDB")
 
 const bodyParser = require('body-parser');
-router.use(bodyParser.urlencoded({ extended: false }));
-router.use(bodyParser.json())
+router.use(express.urlencoded({ extended: false }));
+router.use(express.json())
 
 var jwt = require("jsonwebtoken")
 var bcrypt = require("bcrypt");

@@ -12,8 +12,8 @@ const nodemailer = require("nodemailer");
 const bodyParser = require('body-parser');
 const { route } = require("./ActionsOnRecordApi")
 
-router.use(bodyParser.urlencoded({ extended: false }));
-router.use(bodyParser.json())
+router.use(express.urlencoded({ extended: false }));
+router.use(express.json())
 
 router.post("/forgotPassword", function (req, res, next) {
     var email = req.body.email
