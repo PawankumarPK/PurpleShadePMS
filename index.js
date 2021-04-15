@@ -30,9 +30,9 @@ var awsSES = require("./controller/AwsSesApi")
 app.use("/aws/", awsSES)
 
 
-app.listen(5000, () => {
-    console.log("Server running at port 5000");
-})
+// app.listen(5000, () => {
+//     console.log("Server running at port 5000");
+// })
 
 
 module.exports = app;
