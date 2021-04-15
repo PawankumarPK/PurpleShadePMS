@@ -8,7 +8,7 @@ router.use(express.urlencoded({ extended: false }));
 router.use(express.json())
 
 var jwt = require("jsonwebtoken")
-var bcrypt = require("bcrypt");
+var bcrypt = require("bcryptjs");
 const user_id = require("../customObject/userDetail");
 
 router.post("/login", function (req, res) {

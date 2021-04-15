@@ -4,7 +4,7 @@ var router = express()
 var ForgotPasswordModel = require("../moduleDB/ForgotPasswordDB")
 var UserModel = require("../moduleDB/SignupDB")
 
-var bcrypt = require("bcrypt")
+var bcrypt = require("bcryptjs")
 
 const { v4: uuidv4 } = require('uuid');
 const nodemailer = require("nodemailer");
