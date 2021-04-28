@@ -1,7 +1,7 @@
 require("dotenv").config()
 
 const mongoose = require("mongoose")
-mongoose.connect(process.env.LOCAL_URL_FOR_MONGODB, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_CLUSTER_URL, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
 var conn = mongoose.connection
 
 var userSchema = new mongoose.Schema({
