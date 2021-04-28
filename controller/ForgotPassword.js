@@ -6,11 +6,7 @@ var UserModel = require("../moduleDB/SignupDB")
 
 var bcrypt = require("bcryptjs")
 
-const { v4: uuidv4 } = require('uuid');
 const nodemailer = require("nodemailer");
-
-const bodyParser = require('body-parser');
-const { route } = require("./ActionsOnRecordApi")
 
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json())
@@ -63,7 +59,6 @@ router.post("/forgotPassword", function (req, res, next) {
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log("Email sent !!!!!");
                         return res.status(200).send('A verification email has been sent to ' + user.email + '. It will be expire after one day. If you not get verification Email click on resend token.');
 
                     }
@@ -122,7 +117,6 @@ router.get("/forgotPassVerify", function (req, res) {
 
             user.isVerified = true;
 
-            console.log(user.isVerified);
             user.save(function (err) {
                 //-------------------- error occur ----------------------//
                 if (err) {
@@ -130,7 +124,7 @@ router.get("/forgotPassVerify", function (req, res) {
                 }
                 //----------------- account successfully verified -----------------------//
                 else {
-                     removeField(res, email)
+                    //removeField(res, email)
                     return res.status(200).send('Your account has been successfully verified');
                 }
             });
@@ -138,6 +132,7 @@ router.get("/forgotPassVerify", function (req, res) {
 
     }
 })
+
 
 function removeField(res, email) {
     ForgotPasswordModel.findOneAndDelete(email).then(data => {
@@ -165,10 +160,10 @@ router.post("/updatePassword", function (req, res) {
 
 })
 
-router.post("/removeForgotPassField",function(req,res){
+router.post("/removeForgotPassField", function (req, res) {
     var email = req.body.email
 
-    ForgotPasswordModel.deleteOne({email:email}).then(data => {
+    ForgotPasswordModel.deleteOne({ email: email }).then(data => {
         res.status(201).json({
             message: "Delete Field Successfully",
             result: data
