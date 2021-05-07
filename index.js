@@ -2,7 +2,6 @@ var express = require("express")
 var app = express()
 
 var addRecords = require("./controller/AddRecordsApi")
-const { request } = require("./controller/GetRecordsApi")
 var getRecords = require("./controller/GetRecordsApi")
 var login = require("./controller/LoginApi")
 var signup = require("./controller/SignUpApi")
@@ -26,7 +25,6 @@ app.use("/user/", appPin)
 
 //----------------------------------------------- test purpose ---------------------------------------//
 var awsSES = require("./controller/AwsSesApi")
-
 app.use("/aws/", awsSES)
 
 
